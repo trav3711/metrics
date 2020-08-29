@@ -13,6 +13,10 @@
             android:label="Add Metric"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".UpdateActivity"
+            android:label="Update Metric"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="Metrics">

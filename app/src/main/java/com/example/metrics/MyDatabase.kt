@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.text.Editable
 import android.widget.Toast
 
 class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
@@ -14,32 +15,60 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
     DATABASE_VERSION
 ) {
     override fun onCreate(db: SQLiteDatabase) {
-        val query = "CREATE TABLE " + TABLE_NAME +
-                " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_NAME + " TEXT," + COLUMN_UNIT + " TEXT" + ");"
-        db.execSQL(query)
+        val query1 = "CREATE TABLE " + MAIN_TABLE_NAME +
+                " (" + MAIN_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                MAIN_COLUMN_NAME + " TEXT," + MAIN_COLUMN_UNIT + " TEXT" + ");"
+
+        val query2 = "CREATE TABLE " + SECOND_TABLE_NAME +
+                " (" + SECOND_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                SECOND_COLUMN_METRIC_ID + " INTEGER," + SECOND_COLUMN_DAY + " TEXT," +
+                SECOND_COLUMN_QUANTITY + " INTEGER" + ");"
+
+        db.execSQL(query1)
+        db.execSQL(query2)
+
     }
 
     override fun onUpgrade(db: SQLiteDatabase, i: Int, i1: Int) {
-        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        db.execSQL("DROP TABLE IF EXISTS $MAIN_TABLE_NAME")
+        db.execSQL("DROP TABLE IF EXISTS $SECOND_TABLE_NAME")
         onCreate(db)
     }
 
-    fun addMetric(name: String?, units: String?) {
+    fun addMetricItem(name: String?, units: String?) : Int {
+        val dbWrite = this.writableDatabase
+        val cv = ContentValues()
+        cv.put(MAIN_COLUMN_NAME, name.toString())
+        cv.put(MAIN_COLUMN_UNIT, units.toString())
+
+        val result = dbWrite.insert(MAIN_TABLE_NAME, null, cv).toInt()
+        if (result == -1) {
+            Toast.makeText(context, "main table ailed", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "main success!", Toast.LENGTH_SHORT).show()
+        }
+        return result
+    }
+    
+    fun updateMetricItem(metric_id: Int?, date: Editable, quantity: Editable) {
         val db = this.writableDatabase
         val cv = ContentValues()
-        cv.put(COLUMN_NAME, name.toString())
-        cv.put(COLUMN_UNIT, units.toString())
-        val result = db.insert(TABLE_NAME, null, cv)
-        if (result == -1L) {
-            Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show()
+        cv.put(SECOND_COLUMN_METRIC_ID, metric_id)
+        cv.put(SECOND_COLUMN_DAY, date.toString())
+        cv.put(SECOND_COLUMN_QUANTITY, quantity.toString())
+
+        val result = db.insert(SECOND_TABLE_NAME, null, cv)
+        if (result == -1L){
+            Toast.makeText(context, "secondary table failed", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "success!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "secondary success!", Toast.LENGTH_SHORT).show()
         }
+        
+        
     }
 
     fun readAllData(): Cursor? {
-        val query = "SELECT * FROM $TABLE_NAME"
+        val query = "SELECT * FROM $MAIN_TABLE_NAME"
         val db = this.readableDatabase
         var cursor : Cursor? = null
         if(db != null) {
@@ -51,10 +80,17 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
     companion object {
         private const val DATABASE_NAME = "MetricLibrary.db"
         private const val DATABASE_VERSION = 1
-        private const val TABLE_NAME = "my_metrics"
-        private const val COLUMN_ID = "id"
-        private const val COLUMN_NAME = "metric_name"
-        private const val COLUMN_UNIT = "metric_unit"
+
+        private const val MAIN_TABLE_NAME = "my_metric_main_table"
+        private const val MAIN_COLUMN_ID = "id"
+        private const val MAIN_COLUMN_NAME = "metric_name"
+        private const val MAIN_COLUMN_UNIT = "metric_unit"
+
+        private const val SECOND_TABLE_NAME = "my_metrics_secondary_table"
+        private const val SECOND_COLUMN_ID = "id"
+        private const val SECOND_COLUMN_METRIC_ID = "metric_id"
+        private const val SECOND_COLUMN_DAY = "Date_time"
+        private const val SECOND_COLUMN_QUANTITY = "number"
     }
 
 }
