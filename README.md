@@ -2,25 +2,12 @@
 
 ### Android app to quantify daily metrics data into a human-readable interface
 
-##### Built with:
-- Kotlin
-- Android Jetpack
-- Android Studio
-- SQLite
--
+#### Built with:
+- [Kotlin](https://kotlinlang.org/)
+- [Android Jetpack](https://developer.android.com/jetpack)
+- [Android Studio](https://developer.android.com/studio)
+- [SQLite](https://www.sqlite.org/index.html)
 
-##### TO DO:
-- .kt
-  - MainActivity
-    - Create click listener for reach MetricItem and route to update MainActivity
-  - AddActivity
-    - make add button route back to MainActivity
-    - have android back button route back to proper MainActivity Instance
-  - MetricItem
-    - Handle daily data
-  - MyDatabase
-    - create more columns to hold daily data
-
-- .xml
-  - activity_add
-    - add more inputs for daily data
+#### Tutorials:
+- [Kotlin project Youtube tutorial](https://www.youtube.com/playlist?list=PLrnPJCHvNZuCqEyW_LVTM9r6NnyGD4Db8)
+- [Java Android app Youtube tutorial](https://www.youtube.com/watch?v=hJPk50p7xwA)
