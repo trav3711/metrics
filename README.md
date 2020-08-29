@@ -16,7 +16,6 @@
   - AddActivity
     - make add button route back to MainActivity
     - have android back button route back to proper MainActivity Instance
-    - onClick for add button makes keyboard disappear
   - MetricItem
     - Handle daily data
   - MyDatabase
