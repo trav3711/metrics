@@ -7,6 +7,7 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.jjoe64.graphview.GraphView
 import kotlinx.android.synthetic.main.recycler_row.view.*
 
 /** This adapter:
@@ -40,6 +41,7 @@ class CustomAdapter(
         var metric_id_txt : TextView = v.findViewById(R.id.metric_id_text)
         var metric_name_txt : TextView = v.findViewById(R.id.metric_name_text)
         var metric_unit_txt : TextView = v.findViewById(R.id.metric_unit_text)
+        var metric_graph : GraphView = v.findViewById(R.id.graph)
 
         init {
             v.setOnClickListener(this)

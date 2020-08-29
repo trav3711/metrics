@@ -67,13 +67,22 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         
     }
 
-    fun readAllData(): Cursor? {
+    fun readAllMainData(): Cursor? {
         val query = "SELECT * FROM $MAIN_TABLE_NAME"
         val db = this.readableDatabase
         var cursor : Cursor? = null
         if(db != null) {
             cursor = db.rawQuery(query, null)
         }
+        return cursor
+    }
+
+    fun readAllSecondaryData(id : Int) : Cursor? {
+        val query = "SELECT * FROM $SECOND_TABLE_NAME WHERE $SECOND_COLUMN_METRIC_ID == $id"
+        val db = this.readableDatabase
+        var cursor : Cursor? = null
+        if(db != null)
+            cursor = db.rawQuery(query, null)
         return cursor
     }
 
