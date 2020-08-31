@@ -1,6 +1,9 @@
 package com.example.metrics
 
 import androidx.annotation.Nullable
+import com.github.mikephil.charting.data.BarEntry
+import com.jjoe64.graphview.series.BarGraphSeries
+import com.jjoe64.graphview.series.DataPoint
 
 /** data class holding the data for a card view in the recycler view */
 
@@ -8,7 +11,7 @@ import androidx.annotation.Nullable
 data class MetricItem(var metricID : Int,
                       var metricName : String,
                       var metricUnit : String,
-                      var graphMatrix : MutableList<MutableList<Int>>) {
+                      var chartDataList : ArrayList<BarEntry>) {
 
     fun getID() : Int {
         return this.metricID

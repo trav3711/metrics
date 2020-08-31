@@ -10,12 +10,13 @@
         android:id="@+id/nameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="75dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"/>
+        android:gravity="center"
+        style="@style/headline"/>
     
     <TextView
         android:id="@+id/unitText"
@@ -24,6 +25,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="TextView"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="@+id/nameText"
         app:layout_constraintStart_toStartOf="@+id/nameText"
         app:layout_constraintTop_toBottomOf="@+id/nameText" />
@@ -36,6 +38,7 @@
         android:ems="10"
         android:inputType="numberSigned"
         android:hint="how many did you do?"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/editTextDate"
         app:layout_constraintStart_toStartOf="@+id/editTextDate"
         app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
@@ -44,9 +47,10 @@
         android:id="@+id/editTextDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="93dp"
         android:ems="10"
         android:inputType="date"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/unitText"
         app:layout_constraintStart_toStartOf="@+id/unitText"
         app:layout_constraintTop_toBottomOf="@+id/unitText" />

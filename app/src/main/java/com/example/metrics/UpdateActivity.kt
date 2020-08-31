@@ -2,6 +2,7 @@ package com.example.metrics
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -12,11 +13,6 @@ import androidx.appcompat.app.AppCompatActivity
 import java.time.LocalDate
 
 class UpdateActivity : AppCompatActivity() {
-
-    // TODO: 8/28/20 first text view should display metric name(having trouble)
-    // TODO: 8/28/20 second text view should display metric unit(Having trouble)
-    // TODO: 8/28/20 date entry should show default today's date
-    // TODO: 8/28/20 add the whole adding metric activity functionality
 
     //private lateinit var metric_name : String
     //private var Metric_id : Int = 0
@@ -41,15 +37,26 @@ class UpdateActivity : AppCompatActivity() {
         update_metric_name.text = metric_name
         update_metric_unit.text = metric_unit
 
-        var date_text : String = LocalDate.now().toString().trim()
-        date.setText(date_text)
+        //var date_text : String = LocalDate.now().toString().trim()
+        // TODO: 8/29/20 make teh date human readable
+        val ld : LocalDate = LocalDate.now()
+
+        var day_of_month : Int = ld.dayOfMonth
+        var year : Int = ld.year
+        var month : Int = ld.monthValue
+
+        date.setText(month.toString() + "/" + day_of_month.toString() + "/" + year.toString())
+        Log.i("dat string", month.toString() + "/" + day_of_month.toString() + "/" + year.toString())
+
+        //val date_insert_text : Int = (year.toString() + month.toString() + day_of_month.toString()).toInt()
 
         updateButton.setOnClickListener {
             //Toast.makeText(this, metric_name, Toast.LENGTH_SHORT).show()
             val myDB = MyDatabase(this@UpdateActivity)
             if (metric_id != null) {
                 Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
-                myDB.updateMetricItem(metric_id.toInt(), date.text, quantity.text)
+                // TODO: 8/29/20 make date an Int
+                myDB.updateMetricItem(metric_id.toInt(), date.text.toString(), quantity.text)
             }
 
             // Hide the keyboard.

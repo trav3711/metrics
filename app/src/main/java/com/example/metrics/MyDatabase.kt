@@ -50,7 +50,7 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         return result
     }
     
-    fun updateMetricItem(metric_id: Int?, date: Editable, quantity: Editable) {
+    fun updateMetricItem(metric_id: Int?, date: String, quantity: Editable) {
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(SECOND_COLUMN_METRIC_ID, metric_id)
@@ -73,16 +73,19 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         var cursor : Cursor? = null
         if(db != null) {
             cursor = db.rawQuery(query, null)
+            //Log.i("marker", cursor.getString(2))
         }
         return cursor
     }
 
     fun readAllSecondaryData(id : Int) : Cursor? {
-        val query = "SELECT * FROM $SECOND_TABLE_NAME WHERE $SECOND_COLUMN_METRIC_ID == $id"
+        val query = "SELECT * FROM $SECOND_TABLE_NAME WHERE $SECOND_COLUMN_METRIC_ID IS $id"
         val db = this.readableDatabase
         var cursor : Cursor? = null
-        if(db != null)
+        if(db != null) {
             cursor = db.rawQuery(query, null)
+            //Log.i("is cursor null?", cursor.toString())
+        }
         return cursor
     }
 

@@ -3,21 +3,16 @@ package com.example.metrics
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View.inflate
-import android.widget.TextView
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ColorStateListInflaterCompat.inflate
-import androidx.core.content.res.ComplexColorCompat.inflate
-import androidx.core.graphics.drawable.DrawableCompat.inflate
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.jjoe64.graphview.GraphView
-import kotlinx.android.synthetic.main.recycler_row.*
-import java.util.zip.Inflater
-import kotlin.reflect.typeOf
+import com.jjoe64.graphview.series.BarGraphSeries
+import com.jjoe64.graphview.series.DataPoint
+
 
 class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
@@ -60,61 +55,82 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
             if(cursor.count == 0){
                 Toast.makeText(this, "No Database Available", Toast.LENGTH_SHORT).show()
             } else {
-                var matrix : MutableList<MutableList<Int>> = mutableListOf()
+                var entries : ArrayList<BarEntry> = ArrayList()
                 while (cursor.moveToNext()) {
                     var item = MetricItem(
                         cursor.getInt(0),
                         cursor.getString(1),
                         cursor.getString(2),
-                        matrix)
+                        entries
+                    )
+                    //Log.i("main marker", cursor.getString(2))
                     // TODO: 8/29/20 right here is where I implement createGraph
-                    item.graphMatrix = createGraph(item)
-
-
+                    item.chartDataList = createGraph(item)
                     metricItems.add(item)
                 }
             }
         }
     }
 
+    // TODO: 8/29/20 The GraphView backend is actually really simple, so I think I'm going to remake this CreateGraph method
+    fun createGraph(item: MetricItem) : ArrayList<BarEntry> {
+        var entries: ArrayList<BarEntry> = ArrayList()
+        var graphData: BarGraphSeries<DataPoint> = BarGraphSeries()
+        val cursor: Cursor? = myDB.readAllSecondaryData(item.metricID)
+
+        if (cursor != null) {
+            if (cursor.count != 0) {
+                while (cursor.moveToNext()) {
+                    var point: DataPoint = DataPoint(cursor.getDouble(2), cursor.getDouble(3))
+                    entries.add(BarEntry(cursor.getFloat(2), cursor.getFloat(3)))
+                }
+            }
+        }
+        return entries
+    }
+
+
     // TODO: 8/29/20 but I want to handle all the graph stuff in this function
     // TODO: 8/29/20 handle all of the graph stuff means put it into a data structure that can be stored by the MetricItem object
-    fun createGraph(item : MetricItem) : MutableList<MutableList<Int>>{
+    fun createGraph2(item: MetricItem) : ArrayList<BarEntry>{
         //var dates : ArrayList<String>
-        var graphMatrix : MutableList<MutableList<Int>> = mutableListOf()
-        var currentDate : String?
+        var entries : ArrayList<BarEntry> = ArrayList()
+        var currentDate : Float?
 
-        var graph = findViewById<GraphView>(R.id.graph)
+        //var graph = findViewById<GraphView>(R.id.graph)
         var dateCursor : Cursor? = myDB.readAllSecondaryData(item.metricID)
         var quantityCursor : Cursor? = dateCursor
 
         if(dateCursor != null){
             if(dateCursor.count == 0){
-                Toast.makeText(this, "no secondary database available", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "no secondary database available", Toast.LENGTH_SHORT).show()
             } else {
-                var myList: MutableList<Int>
+                dateCursor.moveToFirst()
+                quantityCursor?.moveToFirst()
+
+                var totalQuantity = 0F
+                //Log.e("quantity", totalQuantity.toString())
                 var initPosition : Int = dateCursor.position
-                var finalposition: Int
-                currentDate = dateCursor.getString(2)
+                var finalPosition: Int
+                //Log.i("possible error", dateCursor.getString(2))
+                currentDate = dateCursor.getFloat(2)
 
                 while(dateCursor.moveToNext()){
-                    if(dateCursor.getString(2) != currentDate){
+                    if(dateCursor.getFloat(2) != currentDate){
 
-                        finalposition = dateCursor.position
+                        finalPosition = dateCursor.position
                         quantityCursor?.moveToPosition(initPosition)
-                        myList = mutableListOf()
 
-                        for (i in initPosition until finalposition) {
+                        for (i in initPosition until finalPosition) {
                             if (quantityCursor != null) {
-                                myList.add(quantityCursor.getInt(3))
+                                totalQuantity += quantityCursor.getFloat(3)
                                 quantityCursor.moveToNext()
                             }
-
                         }
                         //this needs to be fixed
-                        graphMatrix.add(myList)
-                        currentDate = dateCursor.getString(2)
-                        initPosition = finalposition
+                        entries.add(BarEntry(currentDate!!, totalQuantity))
+                        currentDate = dateCursor.getFloat(2)
+                        initPosition = finalPosition
                     } else {
                         continue
                     }
@@ -122,11 +138,11 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 }
             }
         }
-        return graphMatrix
+        return entries
     }
 
     @ExperimentalStdlibApi
-    override fun onItemClick(item : MetricItem) {
+    override fun onItemClick(item: MetricItem) {
         val intent = Intent(this, UpdateActivity::class.java)
         intent.putExtra("id", item.getID().toString())
         intent.putExtra("name", item.metricName)
