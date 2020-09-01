@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.Color.BLACK
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.BarLineChartBase
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -21,6 +23,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import com.example.metrics.DayAxisValueFormatter
 
 
 /** This adapter:
@@ -75,7 +78,7 @@ class CustomAdapter(
 
         var barDataSet = BarDataSet(item.chartDataList, "data list")
         barDataSet.color = Color.RED
-        barDataSet.valueTextSize = 16f
+        barDataSet.valueTextSize = 12f
         barDataSet.valueTextColor = BLACK
 
         var barData = BarData(barDataSet)
@@ -83,14 +86,16 @@ class CustomAdapter(
         chart.setFitBars(true)
         chart.data = barData
         chart.description.text = R.string.chart_description.toString()
-        chart.animateY(2000)
+        chart.animateY(1000)
         
+        val xFormatter = DayAxisValueFormatter(chart)
+
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.valueFormatter = MyValueFormatter()
+        xAxis.valueFormatter = xFormatter
+        //var value = xAxis.valueFormatter.getAxisLabel(item.chartDataList[0].x, xAxis)
+        //Log.i("Axis String", value)
     }
-
-    class MyValueFormatter : ValueFormatter()
 
     /** Interface to handle a click on a metric item */
     interface OnItemClickListener {

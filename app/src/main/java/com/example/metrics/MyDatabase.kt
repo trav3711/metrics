@@ -21,7 +21,7 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
 
         val query2 = "CREATE TABLE " + SECOND_TABLE_NAME +
                 " (" + SECOND_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                SECOND_COLUMN_METRIC_ID + " INTEGER," + SECOND_COLUMN_DAY + " TEXT," +
+                SECOND_COLUMN_METRIC_ID + " INTEGER," + SECOND_COLUMN_DAY + " INTEGER," +
                 SECOND_COLUMN_QUANTITY + " INTEGER" + ");"
 
         db.execSQL(query1)
@@ -50,11 +50,11 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         return result
     }
     
-    fun updateMetricItem(metric_id: Int?, date: String, quantity: Editable) {
+    fun updateMetricItem(metric_id: Int?, date: Long, quantity: Editable) {
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(SECOND_COLUMN_METRIC_ID, metric_id)
-        cv.put(SECOND_COLUMN_DAY, date.toString())
+        cv.put(SECOND_COLUMN_DAY, date)
         cv.put(SECOND_COLUMN_QUANTITY, quantity.toString())
 
         val result = db.insert(SECOND_TABLE_NAME, null, cv)

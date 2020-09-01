@@ -2,9 +2,11 @@ package com.example.metrics
 
 import android.content.Intent
 import android.database.Cursor
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +14,9 @@ import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jjoe64.graphview.series.BarGraphSeries
 import com.jjoe64.graphview.series.DataPoint
+import java.time.LocalDate
+import java.util.Collections.list
+import java.util.Random
 
 
 class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
@@ -49,6 +54,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     }*/
 
     // TODO: 8/29/20 add graph funcationality which I think goes here
+    @RequiresApi(Build.VERSION_CODES.O)
     fun createMetricItem() {
         var cursor : Cursor? = myDB.readAllMainData()
         if (cursor != null) {
@@ -73,6 +79,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     }
 
     // TODO: 8/29/20 The GraphView backend is actually really simple, so I think I'm going to remake this CreateGraph method
+    @RequiresApi(Build.VERSION_CODES.O)
     fun createGraph(item: MetricItem) : ArrayList<BarEntry> {
         var entries: ArrayList<BarEntry> = ArrayList()
         var graphData: BarGraphSeries<DataPoint> = BarGraphSeries()
@@ -86,7 +93,18 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 }
             }
         }
+        generateDummyData(entries)
         return entries
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun generateDummyData(entries: ArrayList<BarEntry>) {
+        val now = LocalDate.now().toEpochDay()
+        for(i in 1 until 200) {
+            var num : Int = (0..100).random()
+            entries.add(BarEntry((now + i).toFloat(), num.toFloat()))
+        }
+
     }
 
 
