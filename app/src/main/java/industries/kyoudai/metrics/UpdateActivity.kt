@@ -1,4 +1,4 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
 import android.os.Build
 import android.os.Bundle
@@ -33,6 +33,7 @@ class UpdateActivity : AppCompatActivity() {
         val update_metric_name = findViewById<TextView>(R.id.nameText)
         //val update_metric_unit = findViewById<TextView>(R.id.unitText)
         var updateButton = findViewById<Button>(R.id.updateButton)
+        val removeButton = findViewById(R.id.remove)
 
         update_metric_name.text = metric_name
         //update_metric_unit.text = metric_unit

@@ -1,4 +1,4 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
 import android.content.ContentValues
 import android.content.Context

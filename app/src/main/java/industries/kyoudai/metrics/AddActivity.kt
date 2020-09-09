@@ -1,4 +1,4 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import com.example.metrics.MyDatabase as MyDatabase
+import industries.kyoudai.metrics.MyDatabase as MyDatabase
 
 /** adds an input to the SQLite database */
 

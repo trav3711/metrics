@@ -1,4 +1,4 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
 import android.util.Log
 import com.github.mikephil.charting.charts.BarLineChartBase

@@ -1,10 +1,9 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
 import android.content.Intent
 import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -15,8 +14,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jjoe64.graphview.series.BarGraphSeries
 import com.jjoe64.graphview.series.DataPoint
 import java.time.LocalDate
-import java.util.Collections.list
-import java.util.Random
 
 
 class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {

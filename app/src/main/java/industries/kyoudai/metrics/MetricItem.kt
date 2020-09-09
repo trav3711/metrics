@@ -1,9 +1,6 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
-import androidx.annotation.Nullable
 import com.github.mikephil.charting.data.BarEntry
-import com.jjoe64.graphview.series.BarGraphSeries
-import com.jjoe64.graphview.series.DataPoint
 
 /** data class holding the data for a card view in the recycler view */
 

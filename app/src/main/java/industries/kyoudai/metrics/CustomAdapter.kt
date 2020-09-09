@@ -1,10 +1,7 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
 import android.graphics.Color
 import android.graphics.Color.BLACK
-import android.os.Parcel
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
@@ -12,18 +9,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.charts.BarLineChartBase
-import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.formatter.IAxisValueFormatter
-import com.github.mikephil.charting.formatter.ValueFormatter
-import com.github.mikephil.charting.utils.ViewPortHandler
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
-import com.example.metrics.DayAxisValueFormatter
 
 
 /** This adapter:
@@ -37,7 +26,7 @@ class CustomAdapter(
 ) : RecyclerView.Adapter<CustomAdapter.MyViewHolder>() {
 
     /** Constructor */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : CustomAdapter.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_row, parent, false)
         return MyViewHolder(view)
 
@@ -45,7 +34,7 @@ class CustomAdapter(
 
     override fun getItemCount() = myList.size
 
-    override fun onBindViewHolder(holder: CustomAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = myList[position]
 
         holder.metric_id_txt.text = currentItem.metricID.toString()
@@ -73,7 +62,7 @@ class CustomAdapter(
         }
     }
 
-    fun onBindChartViewHolder(holder: CustomAdapter.MyViewHolder, item: MetricItem) {
+    fun onBindChartViewHolder(holder: MyViewHolder, item: MetricItem) {
         val chart = holder.bar_chart
 
         var barDataSet = BarDataSet(item.chartDataList, "data list")

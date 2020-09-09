@@ -1,4 +1,4 @@
-package com.example.metrics
+package industries.kyoudai.metrics
 
 import org.junit.Test
 
