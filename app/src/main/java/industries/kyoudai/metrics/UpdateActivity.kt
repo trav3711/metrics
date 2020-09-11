@@ -1,5 +1,6 @@
 package industries.kyoudai.metrics
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -33,7 +34,7 @@ class UpdateActivity : AppCompatActivity() {
         val update_metric_name = findViewById<TextView>(R.id.nameText)
         //val update_metric_unit = findViewById<TextView>(R.id.unitText)
         var updateButton = findViewById<Button>(R.id.updateButton)
-        val removeButton = findViewById(R.id.remove)
+        var deleteButton: Button = findViewById(R.id.deleteButton)
 
         update_metric_name.text = metric_name
         //update_metric_unit.text = metric_unit
@@ -53,13 +54,23 @@ class UpdateActivity : AppCompatActivity() {
             //Toast.makeText(this, metric_name, Toast.LENGTH_SHORT).show()
             val myDB = MyDatabase(this@UpdateActivity)
             if (metric_id != null) {
-                Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
                 myDB.updateMetricItem(metric_id.toInt(), nowInDays, quantity.text)
             }
 
             // Hide the keyboard.
             val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+
+        deleteButton.setOnClickListener {
+            val myDB = MyDatabase(this@UpdateActivity)
+            if(metric_id != null) {
+                Toast.makeText(this, "remove", Toast.LENGTH_SHORT).show()
+                myDB.removeMetricItem(metric_id)
+            }
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 }

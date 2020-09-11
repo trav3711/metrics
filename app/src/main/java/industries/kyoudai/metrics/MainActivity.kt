@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     lateinit var myDB : MyDatabase
     lateinit var metricItems : ArrayList<MetricItem>
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,14 +44,6 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
     }
 
-    /**override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1){
-            recreate()
-        }
-    }*/
-
-    // TODO: 8/29/20 add graph funcationality which I think goes here
     @RequiresApi(Build.VERSION_CODES.O)
     fun createMetricItem() {
         var cursor : Cursor? = myDB.readAllMainData()
@@ -90,7 +83,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 }
             }
         }
-        generateDummyData(entries)
+        //generateDummyData(entries)
         return entries
     }
 
@@ -102,58 +95,6 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
             entries.add(BarEntry((now + i).toFloat(), num.toFloat()))
         }
 
-    }
-
-
-    // TODO: 8/29/20 but I want to handle all the graph stuff in this function
-    // TODO: 8/29/20 handle all of the graph stuff means put it into a data structure that can be stored by the MetricItem object
-    fun createGraph2(item: MetricItem) : ArrayList<BarEntry>{
-        //var dates : ArrayList<String>
-        var entries : ArrayList<BarEntry> = ArrayList()
-        var currentDate : Float?
-
-        //var graph = findViewById<GraphView>(R.id.graph)
-        var dateCursor : Cursor? = myDB.readAllSecondaryData(item.metricID)
-        var quantityCursor : Cursor? = dateCursor
-
-        if(dateCursor != null){
-            if(dateCursor.count == 0){
-                //Toast.makeText(this, "no secondary database available", Toast.LENGTH_SHORT).show()
-            } else {
-                dateCursor.moveToFirst()
-                quantityCursor?.moveToFirst()
-
-                var totalQuantity = 0F
-                //Log.e("quantity", totalQuantity.toString())
-                var initPosition : Int = dateCursor.position
-                var finalPosition: Int
-                //Log.i("possible error", dateCursor.getString(2))
-                currentDate = dateCursor.getFloat(2)
-
-                while(dateCursor.moveToNext()){
-                    if(dateCursor.getFloat(2) != currentDate){
-
-                        finalPosition = dateCursor.position
-                        quantityCursor?.moveToPosition(initPosition)
-
-                        for (i in initPosition until finalPosition) {
-                            if (quantityCursor != null) {
-                                totalQuantity += quantityCursor.getFloat(3)
-                                quantityCursor.moveToNext()
-                            }
-                        }
-                        //this needs to be fixed
-                        entries.add(BarEntry(currentDate!!, totalQuantity))
-                        currentDate = dateCursor.getFloat(2)
-                        initPosition = finalPosition
-                    } else {
-                        continue
-                    }
-
-                }
-            }
-        }
-        return entries
     }
 
     @ExperimentalStdlibApi

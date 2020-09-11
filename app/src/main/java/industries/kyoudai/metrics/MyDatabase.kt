@@ -63,8 +63,23 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         } else {
             Toast.makeText(context, "secondary success!", Toast.LENGTH_SHORT).show()
         }
-        
-        
+    }
+
+    fun removeMetricItem(metric_id: String?) {
+        val db = this.writableDatabase
+        //val query = "WHERE $MAIN_COLUMN_ID IS $metric_id"
+        var result = db.delete(MAIN_TABLE_NAME, "$MAIN_COLUMN_ID IS $metric_id", null)
+        if (result == -1){
+            Toast.makeText(context, "main remove failed", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "main remove success", Toast.LENGTH_SHORT).show()
+        }
+        result = db.delete(SECOND_TABLE_NAME, "$SECOND_COLUMN_METRIC_ID IS $metric_id", null)
+        if (result == -1){
+            Toast.makeText(context, "secondary remove failed", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "secondary remove success", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun readAllMainData(): Cursor? {

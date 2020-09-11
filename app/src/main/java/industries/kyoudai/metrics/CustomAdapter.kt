@@ -37,9 +37,9 @@ class CustomAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = myList[position]
 
-        holder.metric_id_txt.text = currentItem.metricID.toString()
+        //holder.metric_id_txt.text = currentItem.metricID.toString()
         holder.metric_name_txt.text = currentItem.metricName
-        holder.metric_unit_txt.text = currentItem.metricUnit
+        //holder.metric_unit_txt.text = currentItem.metricUnit
         onBindChartViewHolder(holder, currentItem)
 
         //holder.metric_graph.addSeries(currentItem.graphSeries)
@@ -48,9 +48,9 @@ class CustomAdapter(
 
     /** holds the views for which we want to give data to */
     inner class MyViewHolder(v: View) : RecyclerView.ViewHolder(v), OnClickListener{
-        var metric_id_txt : TextView = v.findViewById(R.id.metric_id_text)
+       //var metric_id_txt : TextView = v.findViewById(R.id.metric_id_text)
         var metric_name_txt : TextView = v.findViewById(R.id.metric_name_text)
-        var metric_unit_txt : TextView = v.findViewById(R.id.metric_unit_text)
+        //var metric_unit_txt : TextView = v.findViewById(R.id.metric_unit_text)
         var bar_chart : BarChart = v.findViewById(R.id.barChart)
 
         init {
@@ -72,18 +72,46 @@ class CustomAdapter(
 
         var barData = BarData(barDataSet)
 
-        chart.setFitBars(true)
+        //chart.setFitBars(false)
         chart.data = barData
-        chart.description.text = R.string.chart_description.toString()
-        chart.animateY(1000)
-        
+        //chart.description.text = R.string.chart_description.toString()
+        chart.animateY(500)
+        //chart.setMaxVisibleValueCount(20)
+        chart.setNoDataText("No Data")
+
         val xFormatter = DayAxisValueFormatter(chart)
 
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         xAxis.valueFormatter = xFormatter
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawGridLines(false);
+        xAxis.setDrawLabels(true)
         //var value = xAxis.valueFormatter.getAxisLabel(item.chartDataList[0].x, xAxis)
         //Log.i("Axis String", value)
+
+        val yAxisLeft = chart.axisLeft
+        yAxisLeft.setDrawAxisLine(false)
+        //yAxisLeft.setDrawGridLines(false)
+        //yAxisLeft.setDrawLabels(false)
+        yAxisLeft.setDrawZeroLine(true)
+        yAxisLeft.mAxisMinimum = 100.0F
+
+        val yAxisRight = chart.axisRight
+        yAxisRight.setDrawAxisLine(false)
+        yAxisRight.setDrawGridLines(false)
+        yAxisRight.setDrawLabels(false)
+        //yAxisRight.setDrawZeroLine(false)
+
+        val legend = chart.legend
+        legend.isEnabled = false
+
+        val description = chart.description
+        description.isEnabled = false
+
+
+        //chart.invalidate()
+
     }
 
     /** Interface to handle a click on a metric item */
