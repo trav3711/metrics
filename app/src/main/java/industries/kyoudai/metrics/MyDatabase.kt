@@ -22,7 +22,8 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         val query2 = "CREATE TABLE " + SECOND_TABLE_NAME + " (" +
                 SECOND_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 SECOND_COLUMN_METRIC_ID + " INTEGER," +
-                SECOND_COLUMN_TIME + " DATETIME DEFAULT (strftime('%s','now'))," +
+                SECOND_COLUMN_SECONDS + " DATETIME DEFAULT (strftime('%s','now'))," +
+                SECOND_COLUMN_TIME + " DATETIME DEFAULT TIMESTAMP," +
                 SECOND_COLUMN_QUANTITY + " INTEGER" + ");"
 
         db.execSQL(query1)
@@ -116,7 +117,8 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         private const val SECOND_TABLE_NAME = "my_metrics_secondary_table"
         private const val SECOND_COLUMN_ID = "id"
         private const val SECOND_COLUMN_METRIC_ID = "metric_id"
-        private const val SECOND_COLUMN_TIME = "Date_time"
+        private const val SECOND_COLUMN_SECONDS = "epoch_time_seconds"
+        private const val SECOND_COLUMN_TIME = "date_seconds"
         private const val SECOND_COLUMN_QUANTITY = "number"
     }
 

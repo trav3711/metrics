@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 var i = 0F
                 while (cursor.moveToNext()) {
                     //var point: DataPoint = DataPoint(cursor.getDouble(2), cursor.getDouble(3))
-                    var entry = BarEntry(i , cursor.getFloat(3))
+                    var entry = BarEntry(i, cursor.getFloat(3))
                     i += 1
                     entries.add(entry)
                     Log.e(entry.toString(), "this entry")

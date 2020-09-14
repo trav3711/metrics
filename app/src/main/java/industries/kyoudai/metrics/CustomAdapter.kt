@@ -13,7 +13,6 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.LargeValueFormatter
-import kotlin.collections.ArrayList
 
 
 /** This adapter:
@@ -67,12 +66,15 @@ class CustomAdapter(
         barDataSet.valueTextColor = BLACK
 
         var barData = BarData(barDataSet)
+        barData.setBarWidth(0.75f)
+        //barDataSet.barBorderWidth = 1f
 
         //chart.setFitBars(false)
         chart.data = barData
         //chart.description.text = R.string.chart_description.toString()
-        chart.animateY(500)
-        //chart.setMaxVisibleValueCount(20)
+        //chart.animateY(500)
+        chart.setVisibleXRangeMinimum(10f)
+        chart.setVisibleXRangeMaximum(100f)
         chart.setNoDataText("No Data")
 
        // val xFormatter = DayAxisValueFormatter(chart)
@@ -82,7 +84,7 @@ class CustomAdapter(
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         // TODO: 9/14/20 figure out the value formatter
-        xAxis.valueFormatter = LargeXFormatter
+        xAxis.valueFormatter
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawLabels(true)
@@ -94,13 +96,15 @@ class CustomAdapter(
         //yAxisLeft.setDrawGridLines(false)
         //yAxisLeft.setDrawLabels(false)
         yAxisLeft.setDrawZeroLine(true)
-        yAxisLeft.mAxisMinimum = 100.0F
+        yAxisLeft.setStartAtZero(true)
+        yAxisLeft.axisMinimum = 0f
 
         val yAxisRight = chart.axisRight
         yAxisRight.setDrawAxisLine(false)
         yAxisRight.setDrawGridLines(false)
         yAxisRight.setDrawLabels(false)
         //yAxisRight.setDrawZeroLine(false)
+        yAxisRight.axisMinimum = 0f
 
         val legend = chart.legend
         legend.isEnabled = false

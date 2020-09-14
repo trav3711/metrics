@@ -12,7 +12,7 @@ class DayAxisValueFormatter(private val chart: BarLineChartBase<*>) : ValueForma
     )
 
     override fun getFormattedValue(value: Float): String? {
-        var days = value.toInt()
+        var days = (value/86400).toInt()
         days -= 18261
         //Log.e("days", days.toString())
         val year = determineYear(days)
