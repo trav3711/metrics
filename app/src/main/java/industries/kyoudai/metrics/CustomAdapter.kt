@@ -110,8 +110,6 @@ class CustomAdapter(
         description.isEnabled = false
 
 
-        //chart.invalidate()
-
     }
 
     /** Interface to handle a click on a metric item */

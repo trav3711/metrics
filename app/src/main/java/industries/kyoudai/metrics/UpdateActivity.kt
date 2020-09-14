@@ -40,8 +40,8 @@ class UpdateActivity : AppCompatActivity() {
         //update_metric_unit.text = metric_unit
 
         //var date_text : String = LocalDate.now().toString().trim()
-        val nowInDays: Long = LocalDate.now().toEpochDay()
-        Log.e("epoch day", nowInDays.toString())
+        //val nowInDays: Long = LocalDate.now().toEpochDay()
+        //Log.e("epoch day", nowInDays.toString())
 
 
         //var day_of_month : Int = ld.dayOfMonth
@@ -55,7 +55,7 @@ class UpdateActivity : AppCompatActivity() {
             val myDB = MyDatabase(this@UpdateActivity)
             if (metric_id != null) {
                 //Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
-                myDB.updateMetricItem(metric_id.toInt(), nowInDays, quantity.text)
+                myDB.updateMetricItem(metric_id.toInt(), quantity.text)
             }
 
             // Hide the keyboard.

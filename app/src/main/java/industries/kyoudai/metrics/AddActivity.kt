@@ -1,6 +1,7 @@
 package industries.kyoudai.metrics
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
@@ -13,7 +14,6 @@ import industries.kyoudai.metrics.MyDatabase as MyDatabase
 class AddActivity : AppCompatActivity() {
 
     lateinit var name_input : EditText
-    lateinit var unit_input : EditText
     lateinit var add_button : Button
     var id : Int = 0
 
@@ -22,12 +22,13 @@ class AddActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add)
 
         name_input = findViewById(R.id.name_input)
-        unit_input = findViewById(R.id.unit_input)
+        //unit_input = findViewById(R.id.unit_input)
         add_button = findViewById(R.id.second_add_button)
 
         add_button.setOnClickListener {
             val myDB = MyDatabase(this@AddActivity)
-            myDB.addMetricItem(name_input.text.toString().trim(), unit_input.text.toString().trim())
+            myDB.addMetricItem(name_input.text.toString().trim())
+            //startActivity(Intent(this, MainActivity::class.java))
 
             // Hide the keyboard.
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

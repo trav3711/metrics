@@ -56,11 +56,8 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                     var item = MetricItem(
                         cursor.getInt(0),
                         cursor.getString(1),
-                        cursor.getString(2),
                         entries
                     )
-                    //Log.i("main marker", cursor.getString(2))
-                    // TODO: 8/29/20 right here is where I implement createGraph
                     item.chartDataList = createGraph(item)
                     metricItems.add(item)
                 }
@@ -68,7 +65,6 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         }
     }
 
-    // TODO: 8/29/20 The GraphView backend is actually really simple, so I think I'm going to remake this CreateGraph method
     @RequiresApi(Build.VERSION_CODES.O)
     fun createGraph(item: MetricItem) : ArrayList<BarEntry> {
         var entries: ArrayList<BarEntry> = ArrayList()
@@ -102,7 +98,6 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         val intent = Intent(this, UpdateActivity::class.java)
         intent.putExtra("id", item.getID().toString())
         intent.putExtra("name", item.metricName)
-        intent.putExtra("unit", item.metricUnit)
         startActivity(intent)
     }
 }

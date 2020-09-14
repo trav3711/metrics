@@ -15,13 +15,14 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
     DATABASE_VERSION
 ) {
     override fun onCreate(db: SQLiteDatabase) {
-        val query1 = "CREATE TABLE " + MAIN_TABLE_NAME +
-                " (" + MAIN_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                MAIN_COLUMN_NAME + " TEXT," + MAIN_COLUMN_UNIT + " TEXT" + ");"
+        val query1 = "CREATE TABLE " + MAIN_TABLE_NAME + " (" +
+                MAIN_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                MAIN_COLUMN_NAME + " TEXT," + ");"
 
-        val query2 = "CREATE TABLE " + SECOND_TABLE_NAME +
-                " (" + SECOND_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                SECOND_COLUMN_METRIC_ID + " INTEGER," + SECOND_COLUMN_DAY + " INTEGER," +
+        val query2 = "CREATE TABLE " + SECOND_TABLE_NAME + " (" +
+                SECOND_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                SECOND_COLUMN_METRIC_ID + " INTEGER," +
+                SECOND_COLUMN_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 SECOND_COLUMN_QUANTITY + " INTEGER" + ");"
 
         db.execSQL(query1)
@@ -35,11 +36,10 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         onCreate(db)
     }
 
-    fun addMetricItem(name: String?, units: String?) : Int {
+    fun addMetricItem(name: String?) : Int {
         val dbWrite = this.writableDatabase
         val cv = ContentValues()
         cv.put(MAIN_COLUMN_NAME, name.toString())
-        cv.put(MAIN_COLUMN_UNIT, units.toString())
 
         val result = dbWrite.insert(MAIN_TABLE_NAME, null, cv).toInt()
         if (result == -1) {
@@ -50,11 +50,11 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         return result
     }
     
-    fun updateMetricItem(metric_id: Int?, date: Long, quantity: Editable) {
+    fun updateMetricItem(metric_id: Int?, quantity: Editable) {
         val db = this.writableDatabase
         val cv = ContentValues()
         cv.put(SECOND_COLUMN_METRIC_ID, metric_id)
-        cv.put(SECOND_COLUMN_DAY, date)
+        //cv.put(SECOND_COLUMN_TIME, date)
         cv.put(SECOND_COLUMN_QUANTITY, quantity.toString())
 
         val result = db.insert(SECOND_TABLE_NAME, null, cv)
@@ -116,7 +116,7 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         private const val SECOND_TABLE_NAME = "my_metrics_secondary_table"
         private const val SECOND_COLUMN_ID = "id"
         private const val SECOND_COLUMN_METRIC_ID = "metric_id"
-        private const val SECOND_COLUMN_DAY = "Date_time"
+        private const val SECOND_COLUMN_TIME = "Date_time"
         private const val SECOND_COLUMN_QUANTITY = "number"
     }
 
