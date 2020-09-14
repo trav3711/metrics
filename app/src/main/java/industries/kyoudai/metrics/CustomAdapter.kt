@@ -12,6 +12,7 @@ import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.formatter.LargeValueFormatter
 import kotlin.collections.ArrayList
 
 
@@ -41,16 +42,11 @@ class CustomAdapter(
         holder.metric_name_txt.text = currentItem.metricName
         //holder.metric_unit_txt.text = currentItem.metricUnit
         onBindChartViewHolder(holder, currentItem)
-
-        //holder.metric_graph.addSeries(currentItem.graphSeries)
-        //holder.metric_graph.draw(Canvas())
     }
 
     /** holds the views for which we want to give data to */
     inner class MyViewHolder(v: View) : RecyclerView.ViewHolder(v), OnClickListener{
-       //var metric_id_txt : TextView = v.findViewById(R.id.metric_id_text)
         var metric_name_txt : TextView = v.findViewById(R.id.metric_name_text)
-        //var metric_unit_txt : TextView = v.findViewById(R.id.metric_unit_text)
         var bar_chart : BarChart = v.findViewById(R.id.barChart)
 
         init {
@@ -79,11 +75,14 @@ class CustomAdapter(
         //chart.setMaxVisibleValueCount(20)
         chart.setNoDataText("No Data")
 
-        val xFormatter = DayAxisValueFormatter(chart)
+       // val xFormatter = DayAxisValueFormatter(chart)
+        val xFormatter = TimestampAxisValueFormatter(chart)
+        val LargeXFormatter = LargeValueFormatter()
 
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
-        xAxis.valueFormatter = xFormatter
+        // TODO: 9/14/20 figure out the value formatter
+        xAxis.valueFormatter = LargeXFormatter
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawLabels(true)

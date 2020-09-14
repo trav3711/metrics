@@ -17,12 +17,12 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
     override fun onCreate(db: SQLiteDatabase) {
         val query1 = "CREATE TABLE " + MAIN_TABLE_NAME + " (" +
                 MAIN_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                MAIN_COLUMN_NAME + " TEXT," + ");"
+                MAIN_COLUMN_NAME + " TEXT" + ");"
 
         val query2 = "CREATE TABLE " + SECOND_TABLE_NAME + " (" +
                 SECOND_COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 SECOND_COLUMN_METRIC_ID + " INTEGER," +
-                SECOND_COLUMN_TIME + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
+                SECOND_COLUMN_TIME + " DATETIME DEFAULT (strftime('%s','now'))," +
                 SECOND_COLUMN_QUANTITY + " INTEGER" + ");"
 
         db.execSQL(query1)

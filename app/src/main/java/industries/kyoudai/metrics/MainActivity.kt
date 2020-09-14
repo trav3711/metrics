@@ -4,6 +4,7 @@ import android.content.Intent
 import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -73,9 +74,13 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
         if (cursor != null) {
             if (cursor.count != 0) {
+                var i = 0F
                 while (cursor.moveToNext()) {
-                    var point: DataPoint = DataPoint(cursor.getDouble(2), cursor.getDouble(3))
-                    entries.add(BarEntry(cursor.getFloat(2), cursor.getFloat(3)))
+                    //var point: DataPoint = DataPoint(cursor.getDouble(2), cursor.getDouble(3))
+                    var entry = BarEntry(i , cursor.getFloat(3))
+                    i += 1
+                    entries.add(entry)
+                    Log.e(entry.toString(), "this entry")
                 }
             }
         }
