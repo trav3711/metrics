@@ -67,6 +67,7 @@ class CustomAdapter(
 
         var barData = BarData(barDataSet)
         barData.setBarWidth(0.75f)
+        barData.setDrawValues(false)
         //barDataSet.barBorderWidth = 1f
 
         //chart.setFitBars(false)
@@ -87,7 +88,7 @@ class CustomAdapter(
         xAxis.valueFormatter
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
-        xAxis.setDrawLabels(true)
+        xAxis.setDrawLabels(false)
         //var value = xAxis.valueFormatter.getAxisLabel(item.chartDataList[0].x, xAxis)
         //Log.i("Axis String", value)
 
