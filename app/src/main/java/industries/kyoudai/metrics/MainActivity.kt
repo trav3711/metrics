@@ -7,10 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.TextClock
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.AnimatorRes
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +41,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        /** View imports */
         recyclerView = findViewById(R.id.recyclerView)
         add_button = findViewById(R.id.add_button)
         metric_add_button = findViewById(R.id.metric_add_button)
@@ -55,12 +54,16 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         val fab_close = AnimationUtils.loadAnimation(this, fab_close)
         val fab_clock = AnimationUtils.loadAnimation(this, fab_rotate_clock)
         val fab_anticlock = AnimationUtils.loadAnimation(this, fab_rotate_anticlock)
+        val text_show = AnimationUtils.loadAnimation(this, text_show)
+        val text_close = AnimationUtils.loadAnimation(this, text_close)
 
         add_button.setOnClickListener{
             val intent = Intent(this, AddActivity::class.java)
             //startActivity(intent)
 
             if(isOpen){
+                metric_add_button_text.startAnimation(text_close)
+                metric_update_button_text.startAnimation(text_close)
                 metric_add_button_text.visibility = View.INVISIBLE
                 metric_update_button_text.visibility = View.INVISIBLE
                 metric_add_button.startAnimation(fab_close)
@@ -71,6 +74,8 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 isOpen = false
 
             } else {
+                metric_add_button_text.startAnimation(text_show)
+                metric_update_button_text.startAnimation(text_show)
                 metric_add_button_text.visibility = View.VISIBLE
                 metric_update_button_text.visibility = View.VISIBLE
                 metric_add_button.startAnimation(fab_open)
