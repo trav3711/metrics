@@ -50,12 +50,16 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         metric_update_button_text = findViewById(R.id.metric_update_text)
 
         /** animation imports */
-        val fab_open = AnimationUtils.loadAnimation(this, fab_open)
-        val fab_close = AnimationUtils.loadAnimation(this, fab_close)
+        val fab_open_fast = AnimationUtils.loadAnimation(this, fab_open_fast)
+        val fab_open_slow = AnimationUtils.loadAnimation(this, fab_open_slow)
+        val fab_close_fast = AnimationUtils.loadAnimation(this, fab_close_fast)
+        val fab_close_slow = AnimationUtils.loadAnimation(this, fab_close_slow)
         val fab_clock = AnimationUtils.loadAnimation(this, fab_rotate_clock)
         val fab_anticlock = AnimationUtils.loadAnimation(this, fab_rotate_anticlock)
         val text_show = AnimationUtils.loadAnimation(this, text_show)
+        val text_show_slow = AnimationUtils.loadAnimation(this, text_show_slow)
         val text_close = AnimationUtils.loadAnimation(this, text_close)
+        val text_close_slow = AnimationUtils.loadAnimation(this, text_close_slow)
 
         add_button.setOnClickListener{
             val intent = Intent(this, AddActivity::class.java)
@@ -63,23 +67,23 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
             if(isOpen){
                 metric_add_button_text.startAnimation(text_close)
-                metric_update_button_text.startAnimation(text_close)
+                metric_update_button_text.startAnimation(text_close_slow)
                 metric_add_button_text.visibility = View.INVISIBLE
                 metric_update_button_text.visibility = View.INVISIBLE
-                metric_add_button.startAnimation(fab_close)
-                metric_update_button.startAnimation(fab_close)
+                metric_add_button.startAnimation(fab_close_fast)
+                metric_update_button.startAnimation(fab_close_slow)
                 add_button.startAnimation(fab_anticlock)
                 metric_add_button.isClickable = false
                 metric_update_button.isClickable = false
                 isOpen = false
 
             } else {
-                metric_add_button_text.startAnimation(text_show)
+                metric_add_button_text.startAnimation(text_show_slow)
                 metric_update_button_text.startAnimation(text_show)
                 metric_add_button_text.visibility = View.VISIBLE
                 metric_update_button_text.visibility = View.VISIBLE
-                metric_add_button.startAnimation(fab_open)
-                metric_update_button.startAnimation(fab_open)
+                metric_add_button.startAnimation(fab_open_slow)
+                metric_update_button.startAnimation(fab_open_fast)
                 add_button.startAnimation(fab_clock)
                 metric_add_button.isClickable = true
                 metric_update_button.isClickable = true
