@@ -12,4 +12,8 @@ data class MetricItem(var metricID : Int,
     fun getID() : Int {
         return this.metricID
     }
+
+    fun getName() : String {
+        return this.metricName
+    }
 }

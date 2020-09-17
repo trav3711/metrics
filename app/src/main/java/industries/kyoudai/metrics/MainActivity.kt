@@ -7,8 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ import com.jjoe64.graphview.series.DataPoint
 import industries.kyoudai.metrics.R.anim.*
 import java.time.LocalDate
 
-
 class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
     private lateinit var recyclerView : RecyclerView
@@ -29,6 +27,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     private lateinit var metric_update_button : FloatingActionButton
     private lateinit var metric_add_button_text : TextView
     private lateinit var metric_update_button_text : TextView
+    private lateinit var metrics_menu_spinner : Spinner
 
 
         lateinit var myDB : MyDatabase
@@ -48,6 +47,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         metric_update_button = findViewById(R.id.metric_update_button)
         metric_add_button_text = findViewById(R.id.metric_add_text)
         metric_update_button_text = findViewById(R.id.metric_update_text)
+        metrics_menu_spinner = findViewById(R.id.metrics_menu)
 
         /** animation imports */
         val fab_open_fast = AnimationUtils.loadAnimation(this, fab_open_fast)
@@ -62,14 +62,13 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         val text_close_slow = AnimationUtils.loadAnimation(this, text_close_slow)
 
         add_button.setOnClickListener{
-            val intent = Intent(this, AddActivity::class.java)
-            //startActivity(intent)
-
             if(isOpen){
                 metric_add_button_text.startAnimation(text_close)
                 metric_update_button_text.startAnimation(text_close_slow)
+                metrics_menu_spinner.startAnimation(text_close_slow)
                 metric_add_button_text.visibility = View.INVISIBLE
                 metric_update_button_text.visibility = View.INVISIBLE
+                metrics_menu_spinner.visibility = View.INVISIBLE
                 metric_add_button.startAnimation(fab_close_fast)
                 metric_update_button.startAnimation(fab_close_slow)
                 add_button.startAnimation(fab_anticlock)
@@ -80,8 +79,10 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
             } else {
                 metric_add_button_text.startAnimation(text_show_slow)
                 metric_update_button_text.startAnimation(text_show)
+                metrics_menu_spinner.startAnimation(text_show)
                 metric_add_button_text.visibility = View.VISIBLE
                 metric_update_button_text.visibility = View.VISIBLE
+                metrics_menu_spinner.visibility = View.VISIBLE
                 metric_add_button.startAnimation(fab_open_slow)
                 metric_update_button.startAnimation(fab_open_fast)
                 add_button.startAnimation(fab_clock)
@@ -90,6 +91,18 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 isOpen = true;
             }
         }
+
+        metric_add_button.setOnClickListener {
+            startActivity(Intent(this, AddActivity::class.java))
+        }
+
+        metric_update_button.setOnClickListener {
+            val intent = Intent(this@MainActivity, UpdateActivity::class.java)
+            //intent.putExtra("id", item.getID().toString())
+            //intent.putExtra("name", adapterView?.getItemAtPosition(position).toString())
+            startActivity(intent)
+        }
+
         myDB = MyDatabase(this)
         metricItems = ArrayList()
 
@@ -98,6 +111,18 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         recyclerView.adapter = CustomAdapter(metricItems, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        val names_list = createMetricNamesList()
+        metrics_menu_spinner.adapter = ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, names_list)
+        metrics_menu_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                //Toast.makeText(this@MainActivity, "You Selected ${adapterView?.getItemAtPosition(position).toString()}", Toast.LENGTH_SHORT).show()
+
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -121,6 +146,21 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         }
     }
 
+    fun createMetricNamesList() : ArrayList<String> {
+        var res : ArrayList<String> = ArrayList()
+        val cursor = myDB.readMetricNamesByTime()
+        if (cursor != null) {
+            if (cursor.count == 0) {
+                Toast.makeText(this, "No Names Available", Toast.LENGTH_SHORT).show()
+            } else {
+                while (cursor.moveToNext()){
+                    res.add(cursor.getString(0))
+                }
+            }
+        }
+        return res
+    }
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun createGraph(item: MetricItem) : ArrayList<BarEntry> {
         var entries: ArrayList<BarEntry> = ArrayList()
@@ -132,7 +172,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 var i = 0F
                 while (cursor.moveToNext()) {
                     //var point: DataPoint = DataPoint(cursor.getDouble(2), cursor.getDouble(3))
-                    var entry = BarEntry(i, cursor.getFloat(3))
+                    var entry = BarEntry(i, cursor.getFloat(4))
                     i += 1
                     entries.add(entry)
                     Log.e(entry.toString(), "this entry")
@@ -155,9 +195,9 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
     @ExperimentalStdlibApi
     override fun onItemClick(item: MetricItem) {
-        val intent = Intent(this, UpdateActivity::class.java)
-        intent.putExtra("id", item.getID().toString())
-        intent.putExtra("name", item.metricName)
-        startActivity(intent)
+        //val intent = Intent(this, UpdateActivity::class.java)
+        //intent.putExtra("id", item.getID().toString())
+        //intent.putExtra("name", item.metricName)
+        //startActivity(intent)
     }
 }

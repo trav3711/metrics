@@ -94,8 +94,8 @@ class CustomAdapter(
 
         val yAxisLeft = chart.axisLeft
         yAxisLeft.setDrawAxisLine(false)
-        //yAxisLeft.setDrawGridLines(false)
-        //yAxisLeft.setDrawLabels(false)
+        yAxisLeft.setDrawGridLines(false)
+        yAxisLeft.setDrawLabels(false)
         yAxisLeft.setDrawZeroLine(true)
         yAxisLeft.setStartAtZero(true)
         yAxisLeft.axisMinimum = 0f

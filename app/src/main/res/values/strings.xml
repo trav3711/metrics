@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">metrics</string>
     <string name="chart_description">My Metric Chart</string>
+    <string-array name="test_entries">
+        <item>hello</item>
+    </string-array>
 
 </resources>

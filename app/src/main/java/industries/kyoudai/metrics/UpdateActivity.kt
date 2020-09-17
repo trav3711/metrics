@@ -23,32 +23,15 @@ class UpdateActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update)
 
-        //var activity = MainActivity().findViewById<TextView>(R.id.metric_id_text)
-
         val metric_id = intent.getStringExtra("id")
         val metric_name = intent.getStringExtra("name")
-        //val metric_unit = intent.getStringExtra("unit")
 
-        //val date = findViewById<EditText>(R.id.editTextDate)
         val quantity = findViewById<EditText>(R.id.editTextNumberSigned)
         val update_metric_name = findViewById<TextView>(R.id.nameText)
-        //val update_metric_unit = findViewById<TextView>(R.id.unitText)
         var updateButton = findViewById<Button>(R.id.updateButton)
         var deleteButton: Button = findViewById(R.id.deleteButton)
 
         update_metric_name.text = metric_name
-        //update_metric_unit.text = metric_unit
-
-        //var date_text : String = LocalDate.now().toString().trim()
-        //val nowInDays: Long = LocalDate.now().toEpochDay()
-        //Log.e("epoch day", nowInDays.toString())
-
-
-        //var day_of_month : Int = ld.dayOfMonth
-        //var year : Int = ld.year
-        //var month : Int = ld.monthValue
-
-        //val dateValue = (month.toString() + day_of_month.toString() + year.toString())
 
         updateButton.setOnClickListener {
             //Toast.makeText(this, metric_name, Toast.LENGTH_SHORT).show()
