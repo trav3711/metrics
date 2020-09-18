@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.jjoe64.graphview.series.BarGraphSeries
-import com.jjoe64.graphview.series.DataPoint
 import industries.kyoudai.metrics.R.anim.*
 import java.time.LocalDate
 
@@ -27,8 +25,6 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     private lateinit var metric_update_button : FloatingActionButton
     private lateinit var metric_add_button_text : TextView
     private lateinit var metric_update_button_text : TextView
-    //private lateinit var metrics_menu_spinner : Spinner
-
 
     lateinit var myDB : MyDatabase
     lateinit var metricItems : ArrayList<MetricItem>
@@ -65,7 +61,6 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         metricItems = ArrayList()
 
         createMetricItem()
-        //Log.e("metricItems", metricItems.toString())
 
         recyclerView.adapter = CustomAdapter(metricItems, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -76,11 +71,9 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 metric_add_button_text.startAnimation(text_close)
                 metric_update_button_text.startAnimation(text_close_slow)
                 shadow_view.startAnimation(text_close_slow)
-                //metrics_menu_spinner.startAnimation(text_close_slow)
                 metric_add_button_text.visibility = View.INVISIBLE
                 metric_update_button_text.visibility = View.INVISIBLE
                 shadow_view.visibility = View.INVISIBLE
-                //metrics_menu_spinner.visibility = View.INVISIBLE
                 metric_add_button.startAnimation(fab_close_fast)
                 metric_update_button.startAnimation(fab_close_slow)
                 add_button.startAnimation(fab_anticlock)
@@ -92,11 +85,9 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
                 metric_add_button_text.startAnimation(text_show_slow)
                 metric_update_button_text.startAnimation(text_show)
                 shadow_view.startAnimation(text_show_slow)
-                //metrics_menu_spinner.startAnimation(text_show)
                 metric_add_button_text.visibility = View.VISIBLE
                 metric_update_button_text.visibility = View.VISIBLE
                 shadow_view.visibility = View.VISIBLE
-                //metrics_menu_spinner.visibility = View.VISIBLE
                 metric_add_button.startAnimation(fab_open_slow)
                 metric_update_button.startAnimation(fab_open_fast)
                 add_button.startAnimation(fab_clock)
@@ -142,22 +133,18 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     fun createGraph(item: MetricItem) : ArrayList<BarEntry?> {
         var entries: ArrayList<BarEntry?> = ArrayList()
-        var graphData: BarGraphSeries<DataPoint> = BarGraphSeries()
         val cursor: Cursor? = myDB.readAllSecondaryData(item.metricID)
 
         if (cursor != null) {
             if (cursor.count != 0) {
                 var i = 0F
                 while (cursor.moveToNext()) {
-                    //var point: DataPoint = DataPoint(cursor.getDouble(2), cursor.getDouble(3))
                     var entry = BarEntry(i, cursor.getFloat(4))
                     i += 1
                     entries.add(entry)
-                    //Log.e(entry.toString(), "this entry")
                 }
             }
         }
-        //generateDummyData(entries)
         return entries
     }
 
@@ -174,7 +161,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     @ExperimentalStdlibApi
     override fun onItemClick(item: MetricItem) {
         val intent = Intent(this, MoreInfoActivity::class.java)
-        intent.putExtra("id", item.metricID)
+        intent.putExtra("id", item.metricID.toString())
         intent.putExtra("name", item.metricName)
         startActivity(intent)
     }

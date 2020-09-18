@@ -10,9 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 class UpdateActivity : AppCompatActivity() {
-
-    //private lateinit var metric_name : String
-    //private var Metric_id : Int = 0
     lateinit var myDB : MyDatabase
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -23,17 +20,12 @@ class UpdateActivity : AppCompatActivity() {
         myDB = MyDatabase(this)
 
         var metric_id = ""
-        //val metric_name = intent.getStringExtra("name")
 
         val quantity = findViewById<EditText>(R.id.editTextNumberSigned)
-        //val update_metric_name = findViewById<TextView>(R.id.nameText)
         val updateButton = findViewById<Button>(R.id.updateButton)
         val metrics_spinner = findViewById<Spinner>(R.id.metricSpinner)
 
-        //update_metric_name.text = metric_name
-
         updateButton.setOnClickListener {
-            val myDB = MyDatabase(this@UpdateActivity)
             if (metric_id != null) {
                 myDB.updateMetricItem(metric_id.toInt(), quantity.text)
             }
@@ -56,8 +48,6 @@ class UpdateActivity : AppCompatActivity() {
         metrics_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 metric_id = getKey(key_name_map, adapterView?.getItemAtPosition(position).toString()).toString()
-                //Toast.makeText(this@UpdateActivity, metric_id, Toast.LENGTH_SHORT).show()
-
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -67,7 +57,7 @@ class UpdateActivity : AppCompatActivity() {
     }
 
     fun createMetricNamesHashMap() : HashMap<Int, String> {
-        val hashMap:HashMap<Int,String> = HashMap<Int,String>() //define empty hashmap
+        val hashMap:HashMap<Int,String> = HashMap() //define empty hashmap
         val cursor = myDB.readMetricNamesByTime()
         if (cursor != null) {
             if (cursor.count == 0) {

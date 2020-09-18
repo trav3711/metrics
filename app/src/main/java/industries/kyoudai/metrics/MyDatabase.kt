@@ -68,19 +68,8 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
 
     fun removeMetricItem(metric_id: String?) {
         val db = this.writableDatabase
-        //val query = "WHERE $MAIN_COLUMN_ID IS $metric_id"
-        var result = db.delete(MAIN_TABLE_NAME, "$MAIN_COLUMN_ID IS $metric_id", null)
-        if (result == -1){
-            Toast.makeText(context, "main remove failed", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "main remove success", Toast.LENGTH_SHORT).show()
-        }
-        result = db.delete(SECOND_TABLE_NAME, "$SECOND_COLUMN_METRIC_ID IS $metric_id", null)
-        if (result == -1){
-            Toast.makeText(context, "secondary remove failed", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, "secondary remove success", Toast.LENGTH_SHORT).show()
-        }
+        db.delete(MAIN_TABLE_NAME, "$MAIN_COLUMN_ID IS $metric_id", null)
+        db.delete(SECOND_TABLE_NAME, "$SECOND_COLUMN_METRIC_ID IS $metric_id", null)
     }
 
     fun readAllMainData(): Cursor? {
@@ -124,7 +113,6 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         private const val MAIN_TABLE_NAME = "my_metric_main_table"
         private const val MAIN_COLUMN_ID = "id"
         private const val MAIN_COLUMN_NAME = "metric_name"
-        private const val MAIN_COLUMN_UNIT = "metric_unit"
 
         private const val SECOND_TABLE_NAME = "my_metrics_secondary_table"
         private const val SECOND_COLUMN_ID = "id"

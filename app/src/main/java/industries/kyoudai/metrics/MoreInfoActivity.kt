@@ -9,15 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MoreInfoActivity : AppCompatActivity() {
 
+    lateinit private var myDB: MyDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_moreinfo)
 
         val deleteButton: Button = findViewById(R.id.deleteButton)
         val metric_id = intent.getStringExtra("id")
+        myDB = MyDatabase(this)
 
         deleteButton.setOnClickListener {
-            val myDB = MyDatabase(this@MoreInfoActivity)
+            //val myDB = MyDatabase(this@MoreInfoActivity)
             if(metric_id != null) {
                 Toast.makeText(this, "remove", Toast.LENGTH_SHORT).show()
                 myDB.removeMetricItem(metric_id)
