@@ -173,9 +173,9 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
     @ExperimentalStdlibApi
     override fun onItemClick(item: MetricItem) {
-        //val intent = Intent(this, UpdateActivity::class.java)
-        //intent.putExtra("id", item.getID().toString())
-        //intent.putExtra("name", item.metricName)
-        //startActivity(intent)
+        val intent = Intent(this, MoreInfoActivity::class.java)
+        intent.putExtra("id", item.metricID)
+        intent.putExtra("name", item.metricName)
+        startActivity(intent)
     }
 }

@@ -1,12 +1,13 @@
 package industries.kyoudai.metrics
 
-import android.graphics.Color
 import android.graphics.Color.BLACK
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
@@ -34,6 +35,7 @@ class CustomAdapter(
 
     override fun getItemCount() = myList.size
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = myList[position]
 
@@ -57,18 +59,20 @@ class CustomAdapter(
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     fun onBindChartViewHolder(holder: MyViewHolder, item: MetricItem) {
         val chart = holder.bar_chart
+        val context = holder.bar_chart.context
 
-        var barDataSet = BarDataSet(item.chartDataList, "data list")
-        barDataSet.color = Color.RED
-        barDataSet.valueTextSize = 12f
-        barDataSet.valueTextColor = BLACK
+        var barDataSet = BarDataSet(item.chartDataList, "data list").also {
+            it.color = context.getColor(R.color.colorPrimary)
+            it.valueTextSize = 12f
+        };
 
-        var barData = BarData(barDataSet)
-        barData.setBarWidth(0.75f)
-        barData.setDrawValues(false)
-        //barDataSet.barBorderWidth = 1f
+        var barData = BarData(barDataSet).also {
+            it.barWidth = 0.75f
+            it.setDrawValues(false)
+        }
 
         //chart.setFitBars(false)
         chart.data = barData

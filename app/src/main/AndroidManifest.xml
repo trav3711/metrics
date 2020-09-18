@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".MoreInfoActivity"
+            android:label="More Info"
+            android:parentActivityName="industries.kyoudai.metrics.MainActivity">
+        </activity>
         <activity android:name="industries.kyoudai.metrics.AddActivity"
             android:label="Add Metric"
             android:parentActivityName="industries.kyoudai.metrics.MainActivity">

@@ -28,7 +28,6 @@ class UpdateActivity : AppCompatActivity() {
         val quantity = findViewById<EditText>(R.id.editTextNumberSigned)
         //val update_metric_name = findViewById<TextView>(R.id.nameText)
         val updateButton = findViewById<Button>(R.id.updateButton)
-        val deleteButton: Button = findViewById(R.id.deleteButton)
         val metrics_spinner = findViewById<Spinner>(R.id.metricSpinner)
 
         //update_metric_name.text = metric_name
@@ -45,15 +44,6 @@ class UpdateActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        deleteButton.setOnClickListener {
-            val myDB = MyDatabase(this@UpdateActivity)
-            if(metric_id != null) {
-                Toast.makeText(this, "remove", Toast.LENGTH_SHORT).show()
-                myDB.removeMetricItem(metric_id)
-            }
-            startActivity(Intent(this, MainActivity::class.java))
-        }
-
         val key_name_map = createMetricNamesHashMap()
         val names_list = ArrayList<String>()
         for(key in key_name_map.keys){
@@ -66,7 +56,7 @@ class UpdateActivity : AppCompatActivity() {
         metrics_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 metric_id = getKey(key_name_map, adapterView?.getItemAtPosition(position).toString()).toString()
-                Toast.makeText(this@UpdateActivity, metric_id, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this@UpdateActivity, metric_id, Toast.LENGTH_SHORT).show()
 
             }
 
