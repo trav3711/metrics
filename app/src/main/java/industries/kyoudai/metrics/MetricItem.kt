@@ -9,5 +9,5 @@ import java.io.*
 
 data class MetricItem(var metricID : Int,
                       var metricName : String,
-                      @Transient var chartDataList : List<BarEntry>? = null): Serializable {
+                      @Transient var chartDataList : ArrayList<BarEntry>? = ArrayList()): Serializable {
 }

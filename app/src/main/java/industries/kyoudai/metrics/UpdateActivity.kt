@@ -34,10 +34,8 @@ class UpdateActivity : AppCompatActivity() {
         //update_metric_name.text = metric_name
 
         updateButton.setOnClickListener {
-            //Toast.makeText(this, metric_name, Toast.LENGTH_SHORT).show()
             val myDB = MyDatabase(this@UpdateActivity)
             if (metric_id != null) {
-                //Toast.makeText(this, "click", Toast.LENGTH_SHORT).show()
                 myDB.updateMetricItem(metric_id.toInt(), quantity.text)
             }
 
