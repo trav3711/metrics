@@ -75,16 +75,8 @@
         android:id="@+id/metric_update_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Update"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/metrics_menu"
-        app:layout_constraintEnd_toStartOf="@+id/metrics_menu"
-        app:layout_constraintTop_toTopOf="@+id/metrics_menu" />
-
-    <Spinner
-        android:id="@+id/metrics_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Update Metric"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/metric_update_button"
         app:layout_constraintEnd_toStartOf="@+id/metric_update_button"

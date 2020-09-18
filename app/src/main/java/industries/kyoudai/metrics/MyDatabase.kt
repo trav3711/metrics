@@ -111,7 +111,7 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         //        "INNER JOIN $SECOND_TABLE_NAME ON $SECOND_TABLE_NAME.$SECOND_COLUMN_METRIC_ID = $MAIN_TABLE_NAME.$MAIN_COLUMN_ID " +
         //        "GROUP BY $SECOND_TABLE_NAME.$SECOND_COLUMN_SECONDS " +
         //        "ORDER BY $SECOND_TABLE_NAME.$SECOND_COLUMN_SECONDS DESC"
-        val query = "SELECT $MAIN_COLUMN_NAME FROM $MAIN_TABLE_NAME"
+        val query = "SELECT $MAIN_COLUMN_NAME,$MAIN_COLUMN_ID FROM $MAIN_TABLE_NAME"
         val db = this.readableDatabase
         val  cursor = db.rawQuery(query, null)
         return cursor
