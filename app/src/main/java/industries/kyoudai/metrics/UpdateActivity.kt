@@ -22,8 +22,8 @@ class UpdateActivity : AppCompatActivity() {
 
         myDB = MyDatabase(this)
 
-        val metric_id = intent.getStringExtra("id")
-        val metric_name = intent.getStringExtra("name")
+        var metric_id = ""
+        //val metric_name = intent.getStringExtra("name")
 
         val quantity = findViewById<EditText>(R.id.editTextNumberSigned)
         //val update_metric_name = findViewById<TextView>(R.id.nameText)
@@ -54,13 +54,19 @@ class UpdateActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        //val names_list = createMetricNamesList()
-        metrics_spinner.adapter = CustomArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
+        val key_name_map = createMetricNamesHashMap()
+        val names_list = ArrayList<String>()
+        for(key in key_name_map.keys){
+            key_name_map[key]?.let { names_list.add(it) }
+        }
+        metrics_spinner.adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, names_list)
+        /*metrics_spinner.adapter = CustomArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item,
             intent.extras?.get("metricsItemsList") as ArrayList<MetricItem>
-        )
+        )*/
         metrics_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                Toast.makeText(this@UpdateActivity, adapterView?.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show()
+                metric_id = getKey(key_name_map, adapterView?.getItemAtPosition(position).toString()).toString()
+                Toast.makeText(this@UpdateActivity, metric_id, Toast.LENGTH_SHORT).show()
 
             }
 
@@ -70,18 +76,22 @@ class UpdateActivity : AppCompatActivity() {
         }
     }
 
-    fun createMetricNamesList() : ArrayList<String> {
-        var res : ArrayList<String> = ArrayList()
+    fun createMetricNamesHashMap() : HashMap<Int, String> {
+        val hashMap:HashMap<Int,String> = HashMap<Int,String>() //define empty hashmap
         val cursor = myDB.readMetricNamesByTime()
         if (cursor != null) {
             if (cursor.count == 0) {
                 Toast.makeText(this, "No Names Available", Toast.LENGTH_SHORT).show()
             } else {
                 while (cursor.moveToNext()){
-                    res.add(cursor.getString(0))
+                    hashMap.put(cursor.getInt(0), cursor.getString(1))
                 }
             }
         }
-        return res
+        return hashMap
+    }
+
+    fun <K, V> getKey(hashMap: Map<K, V>, target: V): K {
+        return hashMap.filter { target == it.value }.keys.first()
     }
 }

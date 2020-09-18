@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         metric_update_button = findViewById(R.id.metric_update_button)
         metric_add_button_text = findViewById(R.id.metric_add_text)
         metric_update_button_text = findViewById(R.id.metric_update_text)
+        val shadow_view = findViewById<View>(R.id.shadowView)
 
         /** animation imports */
         val fab_open_fast = AnimationUtils.loadAnimation(this, fab_open_fast)
@@ -74,9 +75,11 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
             if(isOpen){
                 metric_add_button_text.startAnimation(text_close)
                 metric_update_button_text.startAnimation(text_close_slow)
+                shadow_view.startAnimation(text_close_slow)
                 //metrics_menu_spinner.startAnimation(text_close_slow)
                 metric_add_button_text.visibility = View.INVISIBLE
                 metric_update_button_text.visibility = View.INVISIBLE
+                shadow_view.visibility = View.INVISIBLE
                 //metrics_menu_spinner.visibility = View.INVISIBLE
                 metric_add_button.startAnimation(fab_close_fast)
                 metric_update_button.startAnimation(fab_close_slow)
@@ -88,9 +91,11 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
             } else {
                 metric_add_button_text.startAnimation(text_show_slow)
                 metric_update_button_text.startAnimation(text_show)
+                shadow_view.startAnimation(text_show_slow)
                 //metrics_menu_spinner.startAnimation(text_show)
                 metric_add_button_text.visibility = View.VISIBLE
                 metric_update_button_text.visibility = View.VISIBLE
+                shadow_view.visibility = View.VISIBLE
                 //metrics_menu_spinner.visibility = View.VISIBLE
                 metric_add_button.startAnimation(fab_open_slow)
                 metric_update_button.startAnimation(fab_open_fast)
@@ -119,7 +124,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
             if(cursor.count == 0){
                 Toast.makeText(this, "No Database Available", Toast.LENGTH_SHORT).show()
             } else {
-                var entries : ArrayList<BarEntry> = ArrayList()
+                var entries : ArrayList<BarEntry?> = ArrayList()
                 while (cursor.moveToNext()) {
                     var item = MetricItem(
                         cursor.getInt(0),
@@ -135,8 +140,8 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun createGraph(item: MetricItem) : ArrayList<BarEntry> {
-        var entries: ArrayList<BarEntry> = ArrayList()
+    fun createGraph(item: MetricItem) : ArrayList<BarEntry?> {
+        var entries: ArrayList<BarEntry?> = ArrayList()
         var graphData: BarGraphSeries<DataPoint> = BarGraphSeries()
         val cursor: Cursor? = myDB.readAllSecondaryData(item.metricID)
 

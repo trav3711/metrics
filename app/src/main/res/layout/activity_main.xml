@@ -15,6 +15,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/shadowView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#CCE5E5E5"
+        android:visibility="gone" />
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/metric_add_button"
         android:layout_width="wrap_content"
@@ -62,6 +70,7 @@
 
     <TextView
         android:id="@+id/metric_add_text"
+        style="@style/FABstyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -73,6 +82,7 @@
 
     <TextView
         android:id="@+id/metric_update_text"
+        style="@style/FABstyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
