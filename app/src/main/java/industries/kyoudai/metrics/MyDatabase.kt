@@ -78,7 +78,6 @@ class MyDatabase(private val context: Context?) : SQLiteOpenHelper(
         var cursor : Cursor? = null
         if(db != null) {
             cursor = db.rawQuery(query, null)
-            //Log.i("marker", cursor.getString(2))
         }
         return cursor
     }

@@ -2,10 +2,10 @@ package industries.kyoudai.metrics
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
 class MoreInfoActivity : AppCompatActivity() {
 
@@ -20,7 +20,6 @@ class MoreInfoActivity : AppCompatActivity() {
         myDB = MyDatabase(this)
 
         deleteButton.setOnClickListener {
-            //val myDB = MyDatabase(this@MoreInfoActivity)
             if(metric_id != null) {
                 Toast.makeText(this, "remove", Toast.LENGTH_SHORT).show()
                 myDB.removeMetricItem(metric_id)

@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.data.BarEntry
@@ -17,7 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import industries.kyoudai.metrics.R.anim.*
 import java.time.LocalDate
 
-class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity(), MainRecylerAdapter.OnItemClickListener {
 
     private lateinit var recyclerView : RecyclerView
     private lateinit var add_button : FloatingActionButton
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
     lateinit var myDB : MyDatabase
     lateinit var metricItems : ArrayList<MetricItem>
+
+    private lateinit var infoFragment : Fragment
 
     var isOpen = false
 
@@ -44,6 +47,9 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
         metric_add_button_text = findViewById(R.id.metric_add_text)
         metric_update_button_text = findViewById(R.id.metric_update_text)
         val shadow_view = findViewById<View>(R.id.shadowView)
+
+        /** Fragment Imports*/
+        infoFragment = BlankFragment()
 
         /** animation imports */
         val fab_open_fast = AnimationUtils.loadAnimation(this, fab_open_fast)
@@ -62,7 +68,7 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
         createMetricItem()
 
-        recyclerView.adapter = CustomAdapter(metricItems, this)
+        recyclerView.adapter = MainRecylerAdapter(metricItems, this)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         /** click listeners */
@@ -160,9 +166,18 @@ class MainActivity : AppCompatActivity(), CustomAdapter.OnItemClickListener {
 
     @ExperimentalStdlibApi
     override fun onItemClick(item: MetricItem) {
-        val intent = Intent(this, MoreInfoActivity::class.java)
+        /*val intent = Intent(this, MoreInfoActivity::class.java)
         intent.putExtra("id", item.metricID.toString())
         intent.putExtra("name", item.metricName)
-        startActivity(intent)
+        startActivity(intent)*/
+        infoFragment = BlankFragment.newInstance(item)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.info_fragment, infoFragment)
+            addToBackStack(infoFragment.toString())
+
+            //setResult(123, item.metricID)
+            commit()
+        }
     }
 }
+

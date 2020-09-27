@@ -96,4 +96,9 @@
         app:layout_constraintEnd_toStartOf="@+id/metric_update_button"
         app:layout_constraintTop_toTopOf="@+id/metric_update_button" />
 
+    <FrameLayout
+        android:id="@+id/info_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

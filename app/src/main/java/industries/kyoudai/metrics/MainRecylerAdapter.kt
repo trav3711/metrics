@@ -1,6 +1,5 @@
 package industries.kyoudai.metrics
 
-import android.graphics.Color.BLACK
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -21,14 +20,14 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter
  *  - uses onBindViewHolder to bind those views to the MetricItem data class
  */
 @Suppress("DEPRECATION")
-class CustomAdapter(
+class MainRecylerAdapter(
     private val myList: ArrayList<MetricItem>,
     private val listener: OnItemClickListener
-) : RecyclerView.Adapter<CustomAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<MainRecylerAdapter.MyViewHolder>() {
 
     /** Constructor */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : MyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_row, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.main_recycler_row, parent, false)
         return MyViewHolder(view)
 
     }
@@ -38,16 +37,13 @@ class CustomAdapter(
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = myList[position]
-
-        //holder.metric_id_txt.text = currentItem.metricID.toString()
         holder.metric_name_txt.text = currentItem.metricName
-        //holder.metric_unit_txt.text = currentItem.metricUnit
         onBindChartViewHolder(holder, currentItem)
     }
 
     /** holds the views for which we want to give data to */
     inner class MyViewHolder(v: View) : RecyclerView.ViewHolder(v), OnClickListener{
-        var metric_name_txt : TextView = v.findViewById(R.id.metric_name_text)
+        var metric_name_txt : TextView = v.findViewById(R.id.timestamp_text)
         var bar_chart : BarChart = v.findViewById(R.id.barChart)
 
         init {
@@ -89,7 +85,7 @@ class CustomAdapter(
         val xAxis = chart.xAxis
         xAxis.position = XAxis.XAxisPosition.BOTTOM
         // TODO: 9/14/20 figure out the value formatter
-        xAxis.valueFormatter
+        //xAxis.valueFormatter = DayAxisValueFormatter(chart)
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawGridLines(false);
         xAxis.setDrawLabels(false)
