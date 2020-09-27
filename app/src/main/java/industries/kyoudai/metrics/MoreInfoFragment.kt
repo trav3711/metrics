@@ -13,6 +13,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.formatter.LargeValueFormatter
+import org.w3c.dom.Text
 
 
 private const val ARG_ID = "metric_id"
@@ -42,9 +43,12 @@ class BlankFragment : Fragment(R.layout.activity_moreinfo) {
 
         val titleView = getView()?.findViewById<TextView>(R.id.title)
         val recyclerView = getView()?.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
+        val averageView : TextView? = getView()?.findViewById(R.id.average)
 
         titleView!!.text = name
         Graph(view, barDataList!!)
+
+        averageView!!.text = "average: " + FindAverage(barDataList!!).toString()
 
         recyclerView!!.adapter = InfoRecylerAdapter(barDataList!!)
 
@@ -112,6 +116,13 @@ class BlankFragment : Fragment(R.layout.activity_moreinfo) {
         description!!.isEnabled = false
     }
 
+    fun FindAverage(list: ArrayList<BarEntry>) : Float{
+        var a = 0f
+        for(entry in list) {
+            a += entry.y
+        }
+        return a/list.size
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of
